@@ -1,14 +1,16 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
 
 @Entity
-public class Advisor {
-
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long advisorId;
+    private Long clientId;
+
+    @ManyToOne
+    @JoinColumn(name = "advisor_id")
+    private Advisor advisor;
 
     @Column(nullable = false)
     private String firstName;
@@ -25,20 +27,40 @@ public class Advisor {
     @Column(nullable = false)
     private String email;
 
-    protected Advisor() {
-
+    public Client() {
     }
 
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    public Client(Advisor advisor, String firstName, String lastName, String email, String phone, String address) {
+        this.advisor = advisor;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
-        this.phone = phone;
         this.email = email;
+        this.phone = phone;
+        this.address = address;
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -57,12 +79,8 @@ public class Advisor {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public Long getId() {
+        return clientId;
     }
 
     public String getPhone() {
@@ -71,13 +89,5 @@ public class Advisor {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
